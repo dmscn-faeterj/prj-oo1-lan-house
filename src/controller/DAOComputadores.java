@@ -16,4 +16,8 @@ public class DAOComputadores {
 	public static int getQtdComp() {
 		return qtdComp;
 	}
+	
+	public static Computador getComputador(int cod) {
+		return hmComputadores.get(cod);
+	}
 }

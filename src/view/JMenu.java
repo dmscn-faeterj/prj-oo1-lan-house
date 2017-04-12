@@ -74,7 +74,8 @@ public class JMenu extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			
+			JCadastroCliente frame = new JCadastroCliente();
+			frame.setVisible(true);
 		}
 	}
 }

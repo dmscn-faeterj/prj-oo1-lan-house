@@ -5,6 +5,9 @@ public class Computador {
 	private String so;
 	private int horasLigado;
 	
+	public Computador() {
+	}
+	
 	public Computador(int cod, String so) {
 		super();
 		this.cod = cod;

@@ -9,6 +9,8 @@ public class Cliente {
 	private Computador computador;
 	
 	//construtores
+	public Cliente() {
+	}
 	
 	public Cliente(int cod, int horasCompradas) {
 		this.cod = cod;
