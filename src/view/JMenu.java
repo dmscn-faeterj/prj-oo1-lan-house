@@ -63,7 +63,7 @@ public class JMenu extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			int qtd = Computador.qtd;
+			int qtd = DAOComputadores.getQtdComp();
 			Computador comp = new Computador(qtd, "Linux");
 			DAOComputadores.addComputador(comp);
 		}

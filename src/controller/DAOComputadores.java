@@ -6,8 +6,14 @@ import modelo.Computador;
 
 public class DAOComputadores {
 	private static HashMap<Integer, Computador> hmComputadores = new HashMap<Integer, Computador>();
+	private static int qtdComp;
 	
 	public static void addComputador(Computador computador) {
 		hmComputadores.put(computador.getCod(), computador);
+		qtdComp++;
+	}
+	
+	public static int getQtdComp() {
+		return qtdComp;
 	}
 }

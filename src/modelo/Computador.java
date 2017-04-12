@@ -4,13 +4,11 @@ public class Computador {
 	private int cod;
 	private String so;
 	private int horasLigado;
-	public static int qtd = 0;
 	
 	public Computador(int cod, String so) {
 		super();
 		this.cod = cod;
 		this.so = so;
-		qtd++;
 	} //construtor
 	
 	//getters n setters
