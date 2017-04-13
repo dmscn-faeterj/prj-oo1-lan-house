@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import modelo.Computador;
 
@@ -19,5 +20,9 @@ public class DAOComputadores {
 	
 	public static Computador getComputador(int cod) {
 		return hmComputadores.get(cod);
+	}
+	
+	public static HashMap<Integer, Computador> getAll() {
+		return hmComputadores;
 	}
 }

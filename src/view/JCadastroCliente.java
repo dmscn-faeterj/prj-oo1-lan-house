@@ -56,7 +56,7 @@ public class JCadastroCliente extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblCadastroCliente = new JLabel("Cadastro de Cliente");
-		lblCadastroCliente.setBounds(179, 30, 300, 15);
+		lblCadastroCliente.setBounds(150, 33, 300, 15);
 		contentPane.add(lblCadastroCliente);
 		
 		JLabel lblName = new JLabel("Nome");

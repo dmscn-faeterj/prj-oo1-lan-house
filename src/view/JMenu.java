@@ -2,11 +2,14 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -64,7 +67,10 @@ public class JMenu extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			int qtd = DAOComputadores.getQtdComp();
-			Computador comp = new Computador(qtd, "Linux");
+			
+			String so = JOptionPane.showInputDialog("Sistema Operacional: ");
+			
+			Computador comp = new Computador(qtd, so);
 			DAOComputadores.addComputador(comp);
 		}
 	}
