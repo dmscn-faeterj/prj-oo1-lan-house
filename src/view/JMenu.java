@@ -15,12 +15,14 @@ import javax.swing.border.EmptyBorder;
 
 import controller.DAOComputadores;
 import modelo.Computador;
+import java.awt.event.ActionListener;
 
 public class JMenu extends JFrame {
 
 	private JPanel contentPane;
 	private final Action action = new ActionAddComputador();
 	private final Action action_1 = new ActionCriaCliente();
+	private final Action action_2 = new HorasComputadas();
 
 	/**
 	 * Launch the application.
@@ -51,13 +53,18 @@ public class JMenu extends JFrame {
 		
 		JButton btnNewButton = new JButton();
 		btnNewButton.setAction(action);
-		btnNewButton.setBounds(97, 84, 300, 25);
+		btnNewButton.setBounds(81, 39, 300, 25);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton();
 		btnNewButton_1.setAction(action_1);
-		btnNewButton_1.setBounds(97, 146, 300, 25);
+		btnNewButton_1.setBounds(81, 88, 300, 25);
 		contentPane.add(btnNewButton_1);
+		
+		JButton button = new JButton();
+		button.setAction(action_2);
+		button.setBounds(81, 135, 300, 25);
+		contentPane.add(button);
 	}
 	
 	private class ActionAddComputador extends AbstractAction {
@@ -81,6 +88,16 @@ public class JMenu extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			JCadastroCliente frame = new JCadastroCliente();
+			frame.setVisible(true);
+		}
+	}
+	private class HorasComputadas extends AbstractAction {
+		public HorasComputadas() {
+			putValue(NAME, "Horas Computadas");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			JHoras frame = new JHoras();
 			frame.setVisible(true);
 		}
 	}

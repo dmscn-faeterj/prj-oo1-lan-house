@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import modelo.Computador;
 
@@ -22,7 +24,27 @@ public class DAOComputadores {
 		return hmComputadores.get(cod);
 	}
 	
-	public static HashMap<Integer, Computador> getAll() {
-		return hmComputadores;
+	public static List<Computador> getAll() {
+		List<Computador> lstComputadores = new ArrayList();
+		Set<Integer> chaves = hmComputadores.keySet();
+		
+		for(int chave : chaves) {
+			lstComputadores.add(hmComputadores.get(chave));
+		}
+		
+		return lstComputadores;
+	}
+	
+	public static int getTotalHoras() {
+		int horas = 0;
+		List<Computador> lstComputadores = new ArrayList();
+		
+		lstComputadores = getAll();
+		
+		for(Computador computador : lstComputadores) {
+			horas += computador.getHorasLigado();
+		}
+		
+		return horas;
 	}
 }
