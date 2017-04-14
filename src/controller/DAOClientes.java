@@ -13,6 +13,7 @@ public class DAOClientes {
 	
 	public static void addCliente(Cliente cliente) {
 		hmClientes.put(cliente.getCod(), cliente);
+		DAOComputadores.addHoras(cliente.getComputador().getCod(), cliente.getHorasCompradas());
 		qtdClientes++;
 	}
 	
@@ -23,8 +24,9 @@ public class DAOClientes {
 	public static void addHoras(int cod, int horas) {
 		Cliente cliente = new Cliente();
 		cliente = hmClientes.get(cod);
-		int total = cliente.getHorasCompradas() + horas;
-		cliente.setHorasCompradas(total);
+		int total = cliente.getHorasCompradas();
+		cliente.setHorasCompradas(total + horas);
+		DAOComputadores.addHoras(cliente.getComputador().getCod(), horas);
 	}
 	
 	public static List<Cliente> getAll() {
@@ -41,7 +43,21 @@ public class DAOClientes {
 	public static boolean isAtivo(int cod) {
 		Cliente cliente = new Cliente();
 		cliente = hmClientes.get(cod);
-		return cliente.getAtivo(); 
+		return cliente.getAtivo();
+	}
+	
+	public static int getCodByName(String nome) {
+		int cod = -1;
+		Set<Integer> chaves = hmClientes.keySet();
+		
+		for(int chave : chaves) {
+			if(hmClientes.get(chave).getNome().equals(nome)) {
+				cod = hmClientes.get(chave).getCod();
+				break;
+			}
+		}
+		
+		return cod;
 	}
 	
 	public static void off(int cod) {

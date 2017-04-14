@@ -1,8 +1,12 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +21,7 @@ public class JHoras extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JLabel label;
+	private final Action action = new ActOk();
 
 	/**
 	 * Launch the application.
@@ -47,7 +52,7 @@ public class JHoras extends JFrame {
 		
 		String colunas[] = {"Código", "SO", "Horas"};
 		List<Computador> computadores = DAOComputadores.getAll();
-		Object[][] dados = new Object[computadores.size()][3];
+		Object [][] dados = new Object[computadores.size()][3];
 		int i = 0;
 		
 		for(Computador computador : computadores) {
@@ -72,5 +77,22 @@ public class JHoras extends JFrame {
 		label.setBounds(213, 241, 70, 15);
 		label.setText(Integer.toString(horas)); //preenche o display com o total de horas
 		contentPane.add(label);
+		
+		JButton btnOk = new JButton();
+		btnOk.setAction(action);
+		btnOk.setBounds(326, 236, 81, 25);
+		contentPane.add(btnOk);
+	}
+	
+	private class ActOk extends AbstractAction {
+		public ActOk() {
+			putValue(NAME, "Ok");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			JMenu frame = new JMenu();
+			frame.setVisible(true);
+		}
 	}
 }

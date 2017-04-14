@@ -115,9 +115,14 @@ public class JCadastroCliente extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			int qtd = DAOClientes.getQtdClientes() + 1;
+			int qtd = DAOClientes.getQtdClientes();
 			Cliente cliente = new Cliente(qtd, txtNome.getText(), txtTel.getText(), txtEmail.getText(), Integer.parseInt(txtHoras.getText()), DAOComputadores.getComputador(Integer.parseInt(txtPc.getText())));
 			DAOClientes.addCliente(cliente);
+			
+			dispose();
+			setVisible(false);
+			JMenu frame = new JMenu();
+			frame.setVisible(true);
 		}
 	}
 }

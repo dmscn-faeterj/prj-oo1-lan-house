@@ -11,11 +11,15 @@ import javax.swing.border.EmptyBorder;
 
 import controller.DAOClientes;
 import modelo.Cliente;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 public class JAtivos extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private final Action action = new ActOk();
 
 	/**
 	 * Launch the application.
@@ -38,15 +42,15 @@ public class JAtivos extends JFrame {
 	 */
 	public JAtivos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 488, 322);
+		setBounds(100, 100, 488, 338);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 	
-		String [] colunas = {"Código", "Nome", "Email", "Horas Contratadas", "Início", "Computador"};
+		String [] colunas = {"Código", "Nome", "Email", "Horas Contratadas", "Início", "Computador", "Ativo"};
 		List<Cliente> clientes = DAOClientes.getAll();
-		Object [][] dados = null;
+		Object [][] dados = new Object[clientes.size()][7];
 		int i = 0;
 		
 		for(Cliente cliente : clientes) {
@@ -56,6 +60,13 @@ public class JAtivos extends JFrame {
 			dados [i][3] = cliente.getHorasCompradas();
 			dados [i][4] = cliente.getHoraInicial();
 			dados [i][5] = cliente.getComputador().getCod();
+			
+			if(cliente.getAtivo() == true) {
+				dados [i][6] = "On";
+			} else {
+				dados [i][6] = "Off";
+			}
+			
 			i++;
 		}
 		
@@ -63,8 +74,21 @@ public class JAtivos extends JFrame {
 		table.setBounds(28, 39, 432, 218);
 		contentPane.add(table);
 		
-		JButton btnOk = new JButton("Ok");
-		btnOk.setBounds(343, 269, 117, 25);
+		JButton btnOk = new JButton();
+		btnOk.setAction(action);
+		btnOk.setBounds(379, 269, 81, 25);
 		contentPane.add(btnOk);
+	}
+	
+	private class ActOk extends AbstractAction {
+		public ActOk() {
+			putValue(NAME, "Ok");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			JMenu frame = new JMenu();
+			frame.setVisible(true);
+		}
 	}
 }

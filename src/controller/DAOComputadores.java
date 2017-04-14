@@ -35,6 +35,14 @@ public class DAOComputadores {
 		return lstComputadores;
 	}
 	
+	public static void addHoras(int cod, int horas) {
+		Computador computador = new Computador();
+		computador = hmComputadores.get(cod);
+		
+		int aux = computador.getHorasLigado(); 
+		computador.setHorasLigado(aux + horas);
+	}
+	
 	public static int getTotalHoras() {
 		int horas = 0;
 		List<Computador> lstComputadores = new ArrayList();
