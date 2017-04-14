@@ -4,6 +4,7 @@ public class Computador {
 	private int cod;
 	private String so;
 	private int horasLigado;
+	private boolean ativo = false;
 	
 	public Computador() {
 	}
@@ -40,6 +41,11 @@ public class Computador {
 		this.horasLigado = horasLigado;
 	}
 	
-	//metodos
+	public boolean getAtivo() {
+		return ativo;
+	}
 	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 }

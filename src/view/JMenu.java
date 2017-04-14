@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.DAOClientes;
 import controller.DAOComputadores;
 import modelo.Computador;
 import java.awt.event.ActionListener;
@@ -23,6 +24,8 @@ public class JMenu extends JFrame {
 	private final Action action = new ActionAddComputador();
 	private final Action action_1 = new ActionCriaCliente();
 	private final Action action_2 = new HorasComputadas();
+	private final Action action_3 = new AddHoras();
+	private final Action action_4 = new ConsultaAtivos();
 
 	/**
 	 * Launch the application.
@@ -45,26 +48,40 @@ public class JMenu extends JFrame {
 	 */
 	public JMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 470, 457);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton();
-		btnNewButton.setAction(action);
-		btnNewButton.setBounds(81, 39, 300, 25);
-		contentPane.add(btnNewButton);
+		JButton btnAddPc = new JButton();
+		btnAddPc.setAction(action);
+		btnAddPc.setBounds(81, 39, 300, 25);
+		contentPane.add(btnAddPc);
 		
-		JButton btnNewButton_1 = new JButton();
-		btnNewButton_1.setAction(action_1);
-		btnNewButton_1.setBounds(81, 88, 300, 25);
-		contentPane.add(btnNewButton_1);
+		JButton btnAddCliente = new JButton();
+		btnAddCliente.setAction(action_1);
+		btnAddCliente.setBounds(81, 88, 300, 25);
+		contentPane.add(btnAddCliente);
 		
-		JButton button = new JButton();
-		button.setAction(action_2);
-		button.setBounds(81, 135, 300, 25);
-		contentPane.add(button);
+		JButton btnHoras = new JButton();
+		btnHoras.setAction(action_2);
+		btnHoras.setBounds(81, 135, 300, 25);
+		contentPane.add(btnHoras);
+		
+		JButton btnAddHoras = new JButton();
+		btnAddHoras.setAction(action_3);
+		btnAddHoras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAddHoras.setBounds(81, 182, 300, 25);
+		contentPane.add(btnAddHoras);
+		
+		JButton ConsultaAtivos = new JButton();
+		ConsultaAtivos.setAction(action_4);
+		ConsultaAtivos.setBounds(81, 226, 300, 25);
+		contentPane.add(ConsultaAtivos);
 	}
 	
 	private class ActionAddComputador extends AbstractAction {
@@ -99,6 +116,27 @@ public class JMenu extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JHoras frame = new JHoras();
 			frame.setVisible(true);
+		}
+	}
+	private class AddHoras extends AbstractAction {
+		public AddHoras() {
+			putValue(NAME, "Acrescentar Horas");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			int codCliente = Integer.parseInt(JOptionPane.showInputDialog("Entre com o codigo do cliente: "));
+			int horas = Integer.parseInt(JOptionPane.showInputDialog("Entre com o numero de horas: "));
+			
+			DAOClientes.addHoras(codCliente, horas);
+		}
+	}
+	private class ConsultaAtivos extends AbstractAction {
+		public ConsultaAtivos() {
+			putValue(NAME, "Consulta Ativos");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			
 		}
 	}
 }

@@ -1,20 +1,30 @@
 package modelo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Cliente {
 	private int cod;
 	private String nome;
 	private String tel;
 	private String email;
 	private int horasCompradas;
+	private String horaInicial;
+	private boolean ativo = false;
 	private Computador computador;
 	
 	//construtores
-	public Cliente() {
-	}
+	public Cliente() {	}
 	
 	public Cliente(int cod, int horasCompradas) {
 		this.cod = cod;
 		this.horasCompradas = horasCompradas;
+		
+		Date data = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		this.horaInicial = df.format(data);
+		
+		this.ativo = true;
 	}
 	
 	public Cliente(int cod, String nome, String tel, String email, int horasCompradas, Computador computador) {
@@ -24,6 +34,12 @@ public class Cliente {
 		this.email = email;
 		this.horasCompradas = horasCompradas;
 		this.computador = computador;
+		
+		Date data = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		this.horaInicial = df.format(data);
+		
+		this.ativo = true;
 	}
 	
 	//getters n setters
@@ -66,6 +82,22 @@ public class Cliente {
 
 	public void setHorasCompradas(int horasCompradas) {
 		this.horasCompradas = horasCompradas;
+	}
+	
+	public String getHoraInicial() {
+		return horaInicial;
+	}
+
+	public void setHoraInicial(String horaInicial) {
+		this.horaInicial = horaInicial;
+	}
+
+	public boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public Computador getComputador() {
