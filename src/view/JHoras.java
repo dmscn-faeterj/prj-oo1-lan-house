@@ -52,8 +52,10 @@ public class JHoras extends JFrame {
 		
 		String colunas[] = {"Código", "SO", "Horas"};
 		List<Computador> computadores = DAOComputadores.getAll();
-		Object [][] dados = new Object[computadores.size()][3];
-		int i = 0;
+		Object [][] dados = new Object[computadores.size()+1][3];
+		int i = 1;
+		
+		dados[0] = colunas;
 		
 		for(Computador computador : computadores) {
 			dados[i][0] = computador.getCod();
@@ -63,7 +65,7 @@ public class JHoras extends JFrame {
 		}
 		
 		table = new JTable(dados, colunas);
-		table.setBounds(46, 32, 361, 158);
+		table.setBounds(28, 45, 392, 159);
 		contentPane.add(table);
 		
 		JLabel lblHorasTotais = new JLabel("Horas Totais");

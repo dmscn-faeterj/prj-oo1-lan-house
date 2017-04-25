@@ -2,8 +2,14 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Set;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -16,7 +22,6 @@ import javax.swing.border.EmptyBorder;
 import controller.DAOClientes;
 import controller.DAOComputadores;
 import modelo.Computador;
-import java.awt.event.ActionListener;
 
 public class JMenu extends JFrame {
 
@@ -27,7 +32,8 @@ public class JMenu extends JFrame {
 	private final Action addHoras = new AddHoras();
 	private final Action consultaAtivos = new ConsultaAtivos();
 	private final Action desligaCliente = new DesligaCliente();
-	private final Action action = new ConsultaCliente();
+	private final Action consultaCliente = new ConsultaCliente();
+	private final Action exitApp = new ExitApp();
 
 	/**
 	 * Launch the application.
@@ -91,9 +97,14 @@ public class JMenu extends JFrame {
 		contentPane.add(btnDesligaCliente);
 		
 		JButton cosultaCliente = new JButton();
-		cosultaCliente.setAction(action);
+		cosultaCliente.setAction(consultaCliente);
 		cosultaCliente.setBounds(81, 272, 300, 25);
 		contentPane.add(cosultaCliente);
+		
+		JButton btnSave = new JButton();
+		btnSave.setAction(exitApp);
+		btnSave.setBounds(81, 353, 300, 25);
+		contentPane.add(btnSave);
 	}
 	
 	private class ActionAddComputador extends AbstractAction {
@@ -179,6 +190,64 @@ public class JMenu extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			int cod = Integer.parseInt(JOptionPane.showInputDialog("Entre com o código do cliente: "));
 			DAOClientes.off(cod);
+		}
+	}
+	
+	private class ExitApp extends AbstractAction {
+		public ExitApp() {
+			putValue(NAME, "Sair e Salvar");
+			putValue(SHORT_DESCRIPTION, "Salva os dados num arquivo");
+		}
+		public void actionPerformed(ActionEvent e) {
+			Date data = new Date();
+			SimpleDateFormat dia = new SimpleDateFormat("MM");
+			SimpleDateFormat mes = new SimpleDateFormat("dd");
+			String fileName = "relatorio" + dia.format(data) + ".dat";
+			
+			File pasta = new File("relatorios " + mes.format(data));
+			
+			if(!pasta.exists()) {
+				pasta.mkdir();
+			}
+			
+			File arquivo = new File(fileName);
+			
+			if(!arquivo.exists()) {
+				try {
+					arquivo.createNewFile();
+				} catch (IOException e1) {
+					System.out.println("Problemas ao tentar criar o arquivo: ");
+					e1.printStackTrace();
+				}
+			}
+			
+			List<Computador> computadores = DAOComputadores.getAll();
+			
+			try {
+				FileWriter fileWriter = new FileWriter(arquivo);
+				BufferedWriter bfWriter = new BufferedWriter(fileWriter);
+				
+				for(Computador computador : computadores) {
+					StringBuilder string = new StringBuilder();
+					
+					string.append(computador.getCod());
+					string.append(' ');
+					string.append(computador.getSo());
+					string.append(' ');
+					string.append(computador.getHorasLigado());
+					string.append(' ');
+					string.append(computador.getAtivo());
+					string.append(' ');
+					
+					System.out.println(string.toString());
+					bfWriter.write(string.toString());
+					
+					bfWriter.close();
+				}
+			} catch (IOException e1) {
+				System.out.println();
+				e1.printStackTrace();
+			}
 		}
 	}
 }

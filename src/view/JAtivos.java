@@ -42,7 +42,7 @@ public class JAtivos extends JFrame {
 	 */
 	public JAtivos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 488, 338);
+		setBounds(100, 100, 532, 353);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -50,8 +50,10 @@ public class JAtivos extends JFrame {
 	
 		String [] colunas = {"Código", "Nome", "Email", "Horas Contratadas", "Início", "Computador", "Ativo"};
 		List<Cliente> clientes = DAOClientes.getAll();
-		Object [][] dados = new Object[clientes.size()][7];
-		int i = 0;
+		Object [][] dados = new Object[clientes.size()+1][7];
+		int i = 1;
+		
+		dados[0] = colunas;
 		
 		for(Cliente cliente : clientes) {
 			dados [i][0] = cliente.getCod();
@@ -71,7 +73,7 @@ public class JAtivos extends JFrame {
 		}
 		
 		table = new JTable(dados, colunas);
-		table.setBounds(28, 39, 432, 218);
+		table.setBounds(28, 39, 477, 227);
 		contentPane.add(table);
 		
 		JButton btnOk = new JButton();
