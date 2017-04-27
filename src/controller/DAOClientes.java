@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 import modelo.Cliente;
+import modelo.Computador;
 
 public class DAOClientes {
 	private static HashMap<Integer, Cliente> hmClientes = new HashMap<Integer, Cliente>();
 	private static int qtdClientes;
 	
-	public static void addCliente(Cliente cliente) {
+	public static void addCliente(String nome, String tel, String email, int horasCompradas, int computador) {
+		Cliente cliente = new Cliente(qtdClientes++, nome, tel, email, horasCompradas, computador);
 		hmClientes.put(cliente.getCod(), cliente);
-		DAOComputadores.addHoras(cliente.getComputador().getCod(), cliente.getHorasCompradas());
-		qtdClientes++;
+		DAOComputadores.addHoras(cliente.getComputador(), cliente.getHorasCompradas());
 	}
 	
 	public static int getQtdClientes() {
@@ -26,7 +27,7 @@ public class DAOClientes {
 		cliente = hmClientes.get(cod);
 		int total = cliente.getHorasCompradas();
 		cliente.setHorasCompradas(total + horas);
-		DAOComputadores.addHoras(cliente.getComputador().getCod(), horas);
+		DAOComputadores.addHoras(cliente.getComputador(), horas);
 	}
 	
 	public static List<Cliente> getAll() {

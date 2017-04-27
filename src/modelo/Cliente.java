@@ -11,7 +11,7 @@ public class Cliente {
 	private int horasCompradas;
 	private String horaInicial;
 	private boolean ativo = false;
-	private Computador computador;
+	private int computador;
 	
 	//construtores
 	public Cliente() {	}
@@ -27,7 +27,7 @@ public class Cliente {
 		this.ativo = true;
 	}
 	
-	public Cliente(int cod, String nome, String tel, String email, int horasCompradas, Computador computador) {
+	public Cliente(int cod, String nome, String tel, String email, int horasCompradas, int computador) {
 		this.cod = cod;
 		this.nome = nome;
 		this.tel = tel;
@@ -100,11 +100,11 @@ public class Cliente {
 		this.ativo = ativo;
 	}
 
-	public Computador getComputador() {
+	public int getComputador() {
 		return computador;
 	}
 
-	public void setComputador(Computador computador) {
+	public void setComputador(int computador) {
 		this.computador = computador;
 	}
 }
