@@ -3,20 +3,25 @@ package modelo;
 public class Computador {
 	private int cod;
 	private String so;
-	private int horasLigado;
+	private int horasLigado = 0;
+	private String ultCliente = " ";
 	private boolean ativo = false;
 	
-	public Computador() {
-	}
+	public Computador() { }
 	
+	public Computador(int cod, String so, int horasLigado, String ultCliente, boolean ativo) {
+		this.cod = cod;
+		this.so = so;
+		this.horasLigado = horasLigado;
+		this.ultCliente = ultCliente;
+		this.ativo = ativo;
+	}
 	public Computador(int cod, String so) {
 		super();
 		this.cod = cod;
 		this.so = so;
-	} //construtor
-	
-	//getters n setters
-	
+	}
+
 	public int getCod() {
 		return cod;
 	}
@@ -40,11 +45,19 @@ public class Computador {
 	public void setHorasLigado(int horasLigado) {
 		this.horasLigado = horasLigado;
 	}
-	
-	public boolean getAtivo() {
+
+	public String getUltCliente() {
+		return ultCliente;
+	}
+
+	public void setUltCliente(String ultCliente) {
+		this.ultCliente = ultCliente;
+	}
+
+	public boolean isAtivo() {
 		return ativo;
 	}
-	
+
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}

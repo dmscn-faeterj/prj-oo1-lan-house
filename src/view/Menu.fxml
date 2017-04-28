@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -21,36 +20,41 @@
    <children>
       <MenuBar layoutX="-9.0" layoutY="-3.0" prefHeight="29.0" prefWidth="716.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Clientes">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Abrir Todos" />
+                  <MenuItem mnemonicParsing="false" onAction="#consultarCliente" text="Consultar" />
+                  <MenuItem mnemonicParsing="false" text="Desligar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Maquinas">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#verTodosComputadores" text="Ver Todos" />
+              <MenuItem mnemonicParsing="false" text="Buscar" />
+                  <MenuItem mnemonicParsing="false" text="Consultar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Relatorios">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#save" text="Novo" />
+                  <MenuItem mnemonicParsing="false" text="Abrir Todos" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <ScrollPane layoutX="34.0" layoutY="38.0" prefHeight="202.0" prefWidth="627.0">
-         <content>
-            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="625.0">
-              <columns>
-                <TableColumn prefWidth="95.0" text="Cod" />
-                <TableColumn prefWidth="300.0" text="Sistema Operacional" />
-                  <TableColumn prefWidth="115.0" text="Horas" />
-                  <TableColumn prefWidth="115.0" text="Estado" />
-              </columns>
-            </TableView>
-         </content>
-      </ScrollPane>
-      <TabPane layoutX="34.0" layoutY="250.0" prefHeight="166.0" prefWidth="627.0" tabClosingPolicy="UNAVAILABLE">
+      <TableView fx:id="tablePcs" editable="true" layoutX="36.0" layoutY="35.0" prefHeight="200.0" prefWidth="650.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+        <columns>
+          <TableColumn fx:id="cod" prefWidth="39.0" text="Cod" />
+          <TableColumn fx:id="nome" prefWidth="172.0" text="Nome" />
+            <TableColumn fx:id="tel" prefWidth="93.0" text="Tel." />
+            <TableColumn fx:id="email" prefWidth="115.0" text="Email" />
+            <TableColumn fx:id="horasCompradas" prefWidth="62.0" text="Horas" />
+            <TableColumn fx:id="horaInicial" prefWidth="87.0" text="Inicio" />
+            <TableColumn fx:id="ativo" prefWidth="56.0" text="Status" />
+            <TableColumn fx:id="computador" prefWidth="41.0" text="PC" />
+        </columns>
+      </TableView>
+      <TabPane layoutX="34.0" layoutY="250.0" prefHeight="166.0" prefWidth="627.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="250.0">
         <tabs>
           <Tab text="Cliente">
             <content>
@@ -74,27 +78,27 @@
                               <Label text="Email" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                               <Label text="Horas" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                               <Label text="Maquina" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                              <TextField GridPane.columnIndex="1">
+                              <TextField fx:id="txtNome" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextField fx:id="txtTel" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField GridPane.columnIndex="3">
+                              <TextField fx:id="txtHoras" GridPane.columnIndex="3">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <TextField fx:id="txtPc" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
@@ -131,12 +135,12 @@
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <TextField GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                              <TextField fx:id="txtSo" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" text="Criar PC" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                              <Button mnemonicParsing="false" onAction="#cadastraComputador" text="Criar PC" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>

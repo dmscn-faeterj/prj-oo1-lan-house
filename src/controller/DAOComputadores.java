@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import modelo.Cliente;
 import modelo.Computador;
 
 public class DAOComputadores {
 	private static HashMap<Integer, Computador> hmComputadores = new HashMap<Integer, Computador>();
-	private static int qtdComp;
+	private static int qtdComp = 0;
 	
-	public static void addComputador(Computador computador) {
+	public static void addComputador(String so) {
+		Computador computador = new Computador(qtdComp++, so);
 		hmComputadores.put(computador.getCod(), computador);
-		qtdComp++;
 	}
 	
 	public static int getQtdComp() {
@@ -22,6 +23,11 @@ public class DAOComputadores {
 	
 	public static Computador getComputador(int cod) {
 		return hmComputadores.get(cod);
+	}
+	
+	public static void setUser(String user, int cod) {
+		Computador computador = getComputador(cod);
+		computador.setUltCliente(user);
 	}
 	
 	public static List<Computador> getAll() {
