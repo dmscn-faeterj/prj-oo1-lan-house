@@ -4,46 +4,40 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import controller.DAOClientes;
+import controller.DAOComputadores;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
-import modelo.Cliente;
+import modelo.Computador;
 
-public class ConsultaClienteController implements Initializable {
+public class ConsultaComputadorController implements Initializable{
 	@FXML Label lblCod;
-	@FXML Label lblNome;
-	@FXML Label lblTelefone;
-	@FXML Label lblEmail;
+	@FXML Label lblSo;
 	@FXML Label lblHoras;
-	@FXML Label lblHoraInicial;
+	@FXML Label lblUltCliente;
 	@FXML Label lblStatus;
-	@FXML Label lblComputador;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Cliente c = new Cliente();
+		Computador c = new Computador();
 		
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Cliente");
+		dialog.setTitle("Computador");
 		dialog.setHeaderText(null);
-		dialog.setContentText("Entre com o código do cliente: ");
+		dialog.setContentText("Entre com o código do computador: ");
 		
 		Optional<String> result = dialog.showAndWait();
 		
 		if(result.isPresent()) {
-			c = DAOClientes.getCliente(Integer.parseInt(result.get().toString()));
+			c = DAOComputadores.getComputador(Integer.parseInt(result.get().toString()));
 			lblCod.setText(Integer.toString(c.getCod()));
-			lblNome.setText(c.getNome());
-			lblTelefone.setText(c.getTel());
-			lblEmail.setText(c.getEmail());
-			lblHoras.setText(Integer.toString(c.getHorasCompradas()));
-			lblHoraInicial.setText(c.getHoraInicial());
+			lblSo.setText(c.getSo());
+			lblHoras.setText(Integer.toString(c.getHorasLigado()));
+			lblUltCliente.setText(c.getUltCliente());
 			lblStatus.setText(Boolean.toString(c.getAtivo()));
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -55,6 +49,6 @@ public class ConsultaClienteController implements Initializable {
 	}
 	
 	public void voltar(ActionEvent e) {
-		ConsultaCliente.getStage().close();
+		ConsultaComputador.getStage().close();
 	}
 }

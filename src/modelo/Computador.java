@@ -54,7 +54,7 @@ public class Computador {
 		this.ultCliente = ultCliente;
 	}
 
-	public boolean isAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 

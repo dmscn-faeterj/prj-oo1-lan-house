@@ -18,9 +18,13 @@ import modelo.Computador;
 
 
 public class Menu extends Application {
+	private static Stage stage;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			stage = primaryStage;
+			
 			//BorderPane root = new BorderPane();
 			Parent root = FXMLLoader.load(getClass().getResource("/view/Menu.fxml"));
 			Scene scene = new Scene(root);
@@ -34,7 +38,10 @@ public class Menu extends Application {
 	}
 	
 	public static void main(String[] args) {
-		
 		launch(args);
+	}
+	
+	public static Stage getStage() {
+		return stage;
 	}
 }

@@ -19,6 +19,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import modelo.Cliente;
@@ -28,17 +29,25 @@ import modelo.Computador;
 public class MenuController implements Initializable {
 	// declaraçoes da tabela
 	
-	@FXML public TableView<Cliente> tablePcs;
-	@FXML public TableColumn<Cliente, Integer> cod;
+	@FXML public TableView<Cliente> tableCli;
+	@FXML public TableColumn<Cliente, Integer> codCli;
 	@FXML public TableColumn<Cliente, String> nome;
 	@FXML public TableColumn<Cliente, String> tel;
 	@FXML public TableColumn<Cliente, String> email;
 	@FXML public TableColumn<Cliente, Integer> horasCompradas;
 	@FXML public TableColumn<Cliente, Integer> horaInicial;
-	@FXML public TableColumn<Cliente, Integer> ativo;
+	@FXML public TableColumn<Cliente, Integer> statusCli;
 	@FXML public TableColumn<Cliente, Integer> computador;
 	
-	private ObservableList<Cliente> tableList = FXCollections.observableArrayList();
+	@FXML public TableView<Computador> tableCom;
+	@FXML public TableColumn<Computador, Integer> codCom;
+	@FXML public TableColumn<Computador, String> so;
+	@FXML public TableColumn<Computador, Integer> horasLigado;
+	@FXML public TableColumn<Computador, String> ultCliente;
+	@FXML public TableColumn<Computador, Boolean> statusCom;
+	
+	private ObservableList<Cliente> listCli = FXCollections.observableArrayList();
+	private ObservableList<Computador> listCom = FXCollections.observableArrayList();
 	
 	@FXML public TextField txtNome;
 	@FXML public TextField txtTel;
@@ -49,24 +58,49 @@ public class MenuController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		fill();
+		fillCli();
 		
-		tablePcs.setItems(tableList);
-		cod.setCellValueFactory(new PropertyValueFactory<>("cod"));
+		tableCli.setItems(listCli);
+		codCli.setCellValueFactory(new PropertyValueFactory<>("cod"));
 		nome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
 		email.setCellValueFactory(new PropertyValueFactory<>("email"));
 		horasCompradas.setCellValueFactory(new PropertyValueFactory<>("horasCompradas"));
 		horaInicial.setCellValueFactory(new PropertyValueFactory<>("horaInicial"));
-		ativo.setCellValueFactory(new PropertyValueFactory<>("ativo"));
+		statusCli.setCellValueFactory(new PropertyValueFactory<>("ativo"));
 		computador.setCellValueFactory(new PropertyValueFactory<>("computador"));
+		
+		fillCom();
+		
+		tableCom.setItems(listCom);
+		codCom.setCellValueFactory(new PropertyValueFactory<>("cod"));
+		so.setCellValueFactory(new PropertyValueFactory<>("so"));
+		horasLigado.setCellValueFactory(new PropertyValueFactory<>("horasLigado"));
+		ultCliente.setCellValueFactory(new PropertyValueFactory<>("ultCliente"));
+		statusCom.setCellValueFactory(new PropertyValueFactory<>("ativo"));
 	}
 	
-	public void fill() {
-		tableList.removeAll(tableList);
+	public void fillCli() {
+		listCli.removeAll(listCli);
 		for(Cliente cliente : DAOClientes.getAll()) {
-			tableList.add(cliente);
+			listCli.add(cliente);
 		}
+	}
+	
+	public void fillCom() {
+		listCom.removeAll(listCom);
+		for(Computador computador : DAOComputadores.getAll()) {
+			listCom.add(computador);
+		}
+	}
+	
+	public void limpaCampos() {
+		txtNome.setText(null);
+		txtTel.setText(null);
+		txtEmail.setText(null);
+		txtHoras.setText(null);
+		txtPc.setText(null);
+		txtSo.setText(null);
 	}
 	
 	public void cadastraCliente(ActionEvent e) {
@@ -141,7 +175,7 @@ public class MenuController implements Initializable {
 			success.setContentText("Cliente Cadastrado com sucesso!");
 			success.showAndWait();
 			limpaCampos();
-			fill();
+			fillCli();
 		} else {
 			return;
 		}
@@ -162,42 +196,73 @@ public class MenuController implements Initializable {
 			Alert success = new Alert(AlertType.INFORMATION);
 			success.setTitle("Sucesso");
 			success.setHeaderText(null);
-			success.setContentText("Computador Cadastrado com sucesso!");
+			success.setContentText("Computador cadastrado com sucesso!");
 			success.showAndWait();
 			limpaCampos();
-			fill();
+			fillCom();
 		}
-	}
-	
-	public void limpaCampos() {
-		txtNome.setText(null);
-		txtTel.setText(null);
-		txtEmail.setText(null);
-		txtHoras.setText(null);
-		txtPc.setText(null);
-		txtSo.setText(null);
-	}
-	
-	public void abrirClientes(ActionEvent e) {
-		ShowClientes classe = new ShowClientes();
-		Stage stage = null;
-		classe.start(stage);
 	}
 	
 	public void consultarCliente(ActionEvent e) {
 		ConsultaCliente classe = new ConsultaCliente();
-		Stage stage = null;
+		Stage stage = new Stage();
 		classe.start(stage);
 	}
 	
 	public void desligarCliente(ActionEvent e) {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Cliente");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Entre com o código do cliente: ");
 		
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent()) {
+			DAOClientes.dropCliente(Integer.parseInt(result.get().toString()));
+			Alert success = new Alert(AlertType.INFORMATION);
+			success.setTitle("Sucesso");
+			success.setHeaderText(null);
+			success.setContentText("Cliente desligado com sucesso!");
+			success.showAndWait();
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Codigo Invalido");
+			alert.setHeaderText(null);
+			alert.setContentText("Codigo não existe! Por favor tente novamente com um código válido");
+			alert.showAndWait();
+		}
+		fillCli();
 	}
 	
-	public void verTodosComputadores(ActionEvent e) {
-		VerTodosComputadores classe = new VerTodosComputadores();
+	public void consultarComputador(ActionEvent e) {
+		ConsultaComputador classe = new ConsultaComputador();
 		Stage stage = new Stage();
 		classe.start(stage);
+	}
+	
+	public void desligarComputador(ActionEvent e) {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Computador");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Entre com o código do computador: ");
+		
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent()) {
+			DAOComputadores.dropComputador(Integer.parseInt(result.get().toString()));
+			Alert success = new Alert(AlertType.INFORMATION);
+			success.setTitle("Sucesso");
+			success.setHeaderText(null);
+			success.setContentText("Computador delisgado com sucesso!");
+			success.showAndWait();
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Codigo Invalido");
+			alert.setHeaderText(null);
+			alert.setContentText("Codigo não existe! Por favor tente novamente com um código válido");
+			alert.showAndWait();
+		}
+		fillCom();
 	}
 	
 	public void save(ActionEvent e) {

@@ -22,6 +22,21 @@ public class DAOClientes {
 		DAOComputadores.addHoras(cliente.getComputador(), cliente.getHorasCompradas());
 	}
 	
+	public static void dropCliente(int cod) {
+		Set<Integer> chaves = hmClientes.keySet();
+		int aux = -1;
+		
+		for(int chave : chaves) {
+			if(chave == cod) {
+				aux = chave;
+			}
+		}
+		
+		if(aux != -1) {
+			hmClientes.remove(aux);
+		}
+	}
+	
 	public static int getQtdClientes() {
 		return qtdClientes;
 	}

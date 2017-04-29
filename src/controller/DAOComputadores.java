@@ -17,6 +17,21 @@ public class DAOComputadores {
 		hmComputadores.put(computador.getCod(), computador);
 	}
 	
+	public static void dropComputador(int cod) {
+		Set<Integer> chaves = hmComputadores.keySet();
+		int aux = -1;
+		
+		for(int chave : chaves) {
+			if(chave == cod) {
+				aux = cod;
+			}
+		}
+		
+		if(aux != -1) {
+			hmComputadores.remove(aux);	
+		}
+	}
+	
 	public static int getQtdComp() {
 		return qtdComp;
 	}
