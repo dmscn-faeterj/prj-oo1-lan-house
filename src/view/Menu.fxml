@@ -35,7 +35,7 @@
           <Menu mnemonicParsing="false" text="Relatorios">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#save" text="Novo" />
-                  <MenuItem mnemonicParsing="false" text="Abrir Todos" />
+                  <MenuItem mnemonicParsing="false" onAction="#ler" text="Abrir Todos" />
             </items>
           </Menu>
         </menus>

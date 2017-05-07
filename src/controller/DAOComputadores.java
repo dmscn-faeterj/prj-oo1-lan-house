@@ -1,5 +1,9 @@
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,5 +79,33 @@ public class DAOComputadores {
 		}
 		
 		return horas;
+	}
+	
+	public static void salvar() {
+		File arq = new File("computadores.dat");
+		
+		try {
+			FileWriter fWriter = new FileWriter(arq, true);
+			BufferedWriter bWriter = new BufferedWriter(fWriter);
+			
+			Computador c = new Computador();
+			Set<Integer> chaves = hmComputadores.keySet();
+			
+			for(int chave : chaves) {
+				c = hmComputadores.get(chave);
+				bWriter.write(c.getCod() + "\n");
+				bWriter.write(c.getSo() + "\n");
+				bWriter.write(c.getHorasLigado() + "\n");
+				bWriter.write(c.getUltCliente() + "\n");
+				bWriter.write(c.getAtivo() + "\n");
+			}
+			
+			bWriter.close();
+			fWriter.close();
+			
+		} catch (IOException e) {
+			System.out.println("Erro ao tentar salvar os computadores");
+			e.printStackTrace();
+		}
 	}
 }

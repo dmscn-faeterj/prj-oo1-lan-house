@@ -283,6 +283,7 @@ public class MenuController implements Initializable {
 		
 		if(result.get() == btnOk) {
 			DAOClientes.salvar();
+			DAOComputadores.salvar();
 			Alert success = new Alert(AlertType.INFORMATION);
 			success.setTitle("Sucesso");
 			success.setHeaderText(null);
@@ -292,5 +293,8 @@ public class MenuController implements Initializable {
 			return;
 		}
 	}
-
+	
+	public void ler(ActionEvent e) {
+		// TODO implementar metodo
+	}
 }
