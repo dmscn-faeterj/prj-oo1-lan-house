@@ -2,11 +2,14 @@ package controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import modelo.Cliente;
@@ -20,6 +23,11 @@ public class DAOClientes {
 		DAOComputadores.setUser(nome, computador);
 		hmClientes.put(cliente.getCod(), cliente);
 		DAOComputadores.addHoras(cliente.getComputador(), cliente.getHorasCompradas());
+	}
+	
+	public static void addCliente(Cliente cliente) {
+		hmClientes.put(cliente.getCod(), cliente);
+		qtdClientes++;
 	}
 	
 	public static void dropCliente(int cod) {
@@ -90,8 +98,8 @@ public class DAOClientes {
 		cliente.setAtivo(false);
 	}
 	
-	public static void salvar() {
-		File arq = new File("clientes.dat");
+	public static void salvar(String pasta) {
+		File arq = new File(pasta + "/clientes.dat");
 		
 		try {
 			FileWriter fWriter = new FileWriter(arq, true);
@@ -119,5 +127,60 @@ public class DAOClientes {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void ler(String pasta) {
+		try {
+			Scanner in = new Scanner(new FileReader(pasta + "/clientes.dat"));
+			String line;
+			
+			int aux = 1;
+			Cliente c = new Cliente();
+			
+			while(in.hasNextLine()) {
+				line = in.nextLine();
+				System.out.println("entrou");
+				System.out.println(line);
+				System.out.println("aux: " + aux);
+				
+				switch(aux) {
+					case 1: 
+						c.setCod(Integer.parseInt(line));
+						break;
+						
+					case 2: 
+						c.setNome(line);
+						break;
+						
+					case 3: 
+						c.setTel(line);
+						break;
+						
+					case 4:
+						c.setEmail(line);
+						break;
+						
+					case 5:
+						c.setHorasCompradas(Integer.parseInt(line));
+						break;
+						
+					case 6:
+						c.setHoraInicial(line);
+						break;
+						
+					case 7:
+						c.setComputador(Integer.parseInt(line));
+						addCliente(c);
+						c = new Cliente();
+						aux = 0;
+						break;
+				}
+				aux++;
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Erro ao tentar ler o arquivo computadores.dat");
+			e.printStackTrace();
+		}
 	}
 }

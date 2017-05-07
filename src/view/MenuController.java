@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -269,9 +270,10 @@ public class MenuController implements Initializable {
 		SimpleDateFormat df = new SimpleDateFormat("dd MMM");
 		Date dia = new Date();
 		String strDia = df.format(dia);
+		
 		Alert confirm = new Alert(AlertType.CONFIRMATION);
 		confirm.setTitle("Salvar");
-		confirm.setHeaderText("Relatorio " + strDia);
+		confirm.setHeaderText("Relatório " + strDia);
 		confirm.setContentText("Deseja continuar e salvar?");
 		
 		ButtonType btnOk = new ButtonType("Ok");
@@ -282,12 +284,15 @@ public class MenuController implements Initializable {
 		Optional<ButtonType> result = confirm.showAndWait();
 		
 		if(result.get() == btnOk) {
-			DAOClientes.salvar();
-			DAOComputadores.salvar();
+			File pasta = new File(strDia);
+			pasta.mkdir();
+			
+			DAOClientes.salvar(strDia);
+			DAOComputadores.salvar(strDia);
 			Alert success = new Alert(AlertType.INFORMATION);
 			success.setTitle("Sucesso");
 			success.setHeaderText(null);
-			success.setContentText("Relatorio criado com sucesso!");
+			success.setContentText("Relatório criado com sucesso!");
 			success.showAndWait();
 		} else {
 			return;
@@ -295,6 +300,32 @@ public class MenuController implements Initializable {
 	}
 	
 	public void ler(ActionEvent e) {
-		// TODO implementar metodo
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Relatório");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Mes do relatório: ");
+		
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent()) {
+			File arq = new File(result.get().toString());
+			if(arq.exists()) {
+				DAOComputadores.ler(result.get().toString());
+				DAOClientes.ler(result.get().toString());
+			}
+			else {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Relatório não existe");
+				alert.setHeaderText(null);
+				alert.setContentText("Este relatório não existe! Por favor tente novamente com um valor existente");
+				alert.showAndWait();
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Relatório não existe");
+			alert.setHeaderText(null);
+			alert.setContentText("Este relatório não existe! Por favor tente novamente com um valor existente");
+			alert.showAndWait();
+		}
 	}
 }

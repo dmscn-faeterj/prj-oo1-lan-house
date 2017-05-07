@@ -2,14 +2,16 @@ package controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
-import modelo.Cliente;
 import modelo.Computador;
 
 public class DAOComputadores {
@@ -19,6 +21,11 @@ public class DAOComputadores {
 	public static void addComputador(String so) {
 		Computador computador = new Computador(qtdComp++, so);
 		hmComputadores.put(computador.getCod(), computador);
+	}
+	
+	public static void addComputador(Computador computador) {
+		hmComputadores.put(computador.getCod(), computador);
+		qtdComp++;
 	}
 	
 	public static void dropComputador(int cod) {
@@ -50,7 +57,7 @@ public class DAOComputadores {
 	}
 	
 	public static List<Computador> getAll() {
-		List<Computador> lstComputadores = new ArrayList();
+		List<Computador> lstComputadores = new ArrayList<Computador>();
 		Set<Integer> chaves = hmComputadores.keySet();
 		
 		for(int chave : chaves) {
@@ -70,7 +77,7 @@ public class DAOComputadores {
 	
 	public static int getTotalHoras() {
 		int horas = 0;
-		List<Computador> lstComputadores = new ArrayList();
+		List<Computador> lstComputadores = new ArrayList<Computador>();
 		
 		lstComputadores = getAll();
 		
@@ -81,8 +88,8 @@ public class DAOComputadores {
 		return horas;
 	}
 	
-	public static void salvar() {
-		File arq = new File("computadores.dat");
+	public static void salvar(String pasta) {
+		File arq = new File(pasta + "/computadores.dat");
 		
 		try {
 			FileWriter fWriter = new FileWriter(arq, true);
@@ -105,6 +112,54 @@ public class DAOComputadores {
 			
 		} catch (IOException e) {
 			System.out.println("Erro ao tentar salvar os computadores");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void ler(String pasta) {
+		try {
+			Scanner in = new Scanner(new FileReader(pasta + "/computadores.dat"));
+			String line;
+			
+			int aux = 1;
+			Computador c = new Computador();
+			
+			while(in.hasNextLine()) {
+				line = in.nextLine();
+				
+				System.out.println("entrou");
+				System.out.println(line);
+				System.out.println("aux: " + aux);
+				
+				switch(aux) {
+					case 1: 
+						c.setCod(Integer.parseInt(line));
+						break;
+						
+					case 2: 
+						c.setSo(line);
+						break;
+						
+					case 3:
+						c.setHorasLigado(Integer.parseInt(line));
+						break;
+						
+					case 4:
+						c.setUltCliente(line);
+						break;
+						
+					case 5:
+						c.setAtivo(Boolean.parseBoolean(line));
+						addComputador(c);
+						c = new Computador();
+						aux = 0;
+						break;
+				}
+				aux++;
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Erro ao tentar ler o arquivo computadores.dat");
 			e.printStackTrace();
 		}
 	}
