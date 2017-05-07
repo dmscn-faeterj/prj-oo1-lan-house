@@ -43,6 +43,12 @@ public class DAOComputadores {
 		}
 	}
 	
+	public static void turnOff(int cod) {
+		Computador c = hmComputadores.get(cod);
+		c.setAtivo(false);
+		DAOClientes.turnOff(DAOClientes.getCodByName(c.getUltCliente()));
+	}
+	
 	public static int getQtdComp() {
 		return qtdComp;
 	}
@@ -54,6 +60,11 @@ public class DAOComputadores {
 	public static void setUser(String user, int cod) {
 		Computador computador = getComputador(cod);
 		computador.setUltCliente(user);
+	}
+	
+	public static void setStatus(Boolean status, int cod) {
+		Computador computador = getComputador(cod);
+		computador.setAtivo(status);
 	}
 	
 	public static List<Computador> getAll() {

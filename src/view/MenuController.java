@@ -219,7 +219,7 @@ public class MenuController implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 		
 		if(result.isPresent()) {
-			DAOClientes.dropCliente(Integer.parseInt(result.get().toString()));
+			DAOClientes.turnOff(Integer.parseInt(result.get().toString()));
 			Alert success = new Alert(AlertType.INFORMATION);
 			success.setTitle("Sucesso");
 			success.setHeaderText(null);
@@ -250,7 +250,7 @@ public class MenuController implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 		
 		if(result.isPresent()) {
-			DAOComputadores.dropComputador(Integer.parseInt(result.get().toString()));
+			DAOComputadores.turnOff(Integer.parseInt(result.get().toString()));
 			Alert success = new Alert(AlertType.INFORMATION);
 			success.setTitle("Sucesso");
 			success.setHeaderText(null);
@@ -327,5 +327,7 @@ public class MenuController implements Initializable {
 			alert.setContentText("Este relatório não existe! Por favor tente novamente com um valor existente");
 			alert.showAndWait();
 		}
+		fillCli();
+		fillCom();
 	}
 }

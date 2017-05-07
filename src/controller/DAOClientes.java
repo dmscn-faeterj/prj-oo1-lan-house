@@ -23,6 +23,7 @@ public class DAOClientes {
 		DAOComputadores.setUser(nome, computador);
 		hmClientes.put(cliente.getCod(), cliente);
 		DAOComputadores.addHoras(cliente.getComputador(), cliente.getHorasCompradas());
+		DAOComputadores.setStatus(true, computador);
 	}
 	
 	public static void addCliente(Cliente cliente) {
@@ -43,6 +44,11 @@ public class DAOClientes {
 		if(aux != -1) {
 			hmClientes.remove(aux);
 		}
+	}
+	
+	public static void turnOff(int cod) {
+		Cliente c = hmClientes.get(cod);
+		c.setAtivo(false);
 	}
 	
 	public static int getQtdClientes() {
